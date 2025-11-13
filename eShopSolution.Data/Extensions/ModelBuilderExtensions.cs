@@ -1,5 +1,6 @@
 ﻿using eShopSolution.Data.Entities;
 using eShopSolution.Data.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -123,7 +124,43 @@ namespace eShopSolution.Data.Extensions
             modelBuilder.Entity<ProductInCategory>().HasData(
                 new ProductInCategory() { ProductId = 1, CategoryId = 1 }
                 );
+            // any guid
+            var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
+            var adminId = new Guid("69BD714F-9576-45BA-B5B7-F00649BE00DE");
+            modelBuilder.Entity<AppRole>().HasData(new AppRole
+            {
+                Id = roleId,
+                Name = "admin",
+                NormalizedName = "admin",
+                Description = "Administrator role"
+            });
 
+            // Use a static password hash and stamps so HasData is deterministic
+            modelBuilder.Entity<AppUser>().HasData(new AppUser
+            {
+                Id = adminId,
+                UserName = "admin",
+                NormalizedUserName = "admin",
+                Email = "bakhuong.international@gmail.com",
+                NormalizedEmail = "bakhuong.international@gmail.com",
+                EmailConfirmed = true,
+                // static hash taken from existing migration
+                PasswordHash = "AQAAAAIAAYagAAAAEL2SvyQxXnQvlG061h3tXCWuJ06zOTDhk7O+FSMCMnZ8+AD7s1W6HglJo5f5k4RxCw==",
+                SecurityStamp = string.Empty,
+                ConcurrencyStamp = "b0e0e880-357f-4125-a2cf-98d5e41c2a14",
+                FirstName = "Khuong",
+                LastName = "Ba",
+                Dob = new DateTime(2020, 01, 31),
+                LockoutEnabled = false
+            });
+
+            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
+            {
+                RoleId = roleId,
+                UserId = adminId
+            });
         }
+
     }
+
 }
