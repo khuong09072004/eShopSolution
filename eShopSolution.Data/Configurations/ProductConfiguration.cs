@@ -15,8 +15,8 @@ namespace eShopSolution.Data.Configurations
         {
            builder.ToTable("Products");
            builder.HasKey(x => x.Id);
-           builder.Property(x => x.Price).IsRequired();
-           builder.Property(x => x.OriginalPrice).IsRequired();
+           builder.Property(x => x.Price).IsRequired().HasColumnType("decimal(18,2)");
+           builder.Property(x => x.OriginalPrice).IsRequired().HasColumnType("decimal(18,2)");
            builder.Property(x=>x.Stock).IsRequired().HasDefaultValue(0);
            builder.Property(x => x.ViewCount).IsRequired().HasDefaultValue(0);
            

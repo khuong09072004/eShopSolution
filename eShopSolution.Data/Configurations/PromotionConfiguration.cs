@@ -19,6 +19,7 @@ namespace eShopSolution.Data.Configurations
             builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.Name).IsRequired();
+            builder.Property(x => x.DiscountAmount).HasColumnType("decimal(18,2)");
         }
     }
 }
