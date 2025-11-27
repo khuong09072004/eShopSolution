@@ -7,10 +7,10 @@ namespace eShopSolution.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsercsController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UsercsController(IUserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
 
@@ -18,10 +18,11 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody]LoginRequest request)
+        public async Task<IActionResult> Authenticate([FromForm]LoginRequest request)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             var resultToken = await _userService.Authencate(request);
             if(string.IsNullOrEmpty(resultToken))
             {

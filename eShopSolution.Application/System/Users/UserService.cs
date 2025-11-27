@@ -33,9 +33,7 @@ namespace eShopSolution.Application.System.Users
             // 1. Check user tồn tại
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
-            {
-                return "USER_NOT_FOUND";
-            }
+                return null;  // <-- sửa ở đây
 
             // 2. Check mật khẩu
             var result = await _signInManager.PasswordSignInAsync(
@@ -46,9 +44,7 @@ namespace eShopSolution.Application.System.Users
             );
 
             if (!result.Succeeded)
-            {
-                return "WRONG_PASSWORD";
-            }
+                return null;  // <-- sửa ở đây
 
             // 3. Lấy roles
             var roles = await _userManager.GetRolesAsync(user);
@@ -65,16 +61,11 @@ namespace eShopSolution.Application.System.Users
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-            // 5. Tạo key
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_config["Tokens:Key"])
-            );
-            // 6. Tạo cred
+
+            // 5. Tạo key & 6. Tạo cred & 7. Tạo token
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            // 7. Tạo token
             var token = new JwtSecurityToken(
-                issuer: _config["Tokens:Issuer"],
-                audience: _config["Tokens:Issuer"],
                 claims: claims,
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds
@@ -82,6 +73,7 @@ namespace eShopSolution.Application.System.Users
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
 
 
         public async Task<bool> Register(ViewModels.System.Users.RegisterRequest request)
