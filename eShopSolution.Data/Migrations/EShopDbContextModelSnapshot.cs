@@ -274,7 +274,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "bakhuong.international@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL2SvyQxXnQvlG061h3tXCWuJ06zOTDhk7O+FSMCMnZ8+AD7s1W6HglJo5f5k4RxCw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBdt4sV/Fn3LqzSkq2x+vo+gjmnWB8yW3lbPnh1LH16zdlg+0Q87O06/Hf3iNyuCVQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -618,7 +618,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2024, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateCreated = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,

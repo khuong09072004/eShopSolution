@@ -30,46 +30,30 @@ namespace eShopSolution.Application.System.Users
 
         public async Task<string> Authencate(LoginRequest request)
         {
-            // 1. Check user tồn tại
             var user = await _userManager.FindByNameAsync(request.UserName);
-            if (user == null)
-                return null;  // <-- sửa ở đây
+            if (user == null) return null;
 
-            // 2. Check mật khẩu
-            var result = await _signInManager.PasswordSignInAsync(
-                user,
-                request.Password,
-                request.RememberMe,
-                lockoutOnFailure: false
-            );
-
+            var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
-                return null;  // <-- sửa ở đây
-
-            // 3. Lấy roles
-            var roles = await _userManager.GetRolesAsync(user);
-
-            // 4. Tạo claims
-            var claims = new List<Claim>()
-    {
-        new Claim(ClaimTypes.Email, user.Email ?? ""),
-        new Claim(ClaimTypes.GivenName, user.FirstName ?? ""),
-        new Claim(ClaimTypes.Name, user.UserName ?? ""),
-    };
-
-            foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                return null;
             }
-
-            // 5. Tạo key & 6. Tạo cred & 7. Tạo token
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.GivenName,user.FirstName),
+                new Claim(ClaimTypes.Role, string.Join(";",roles)),
+                new Claim(ClaimTypes.Name, request.UserName)
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                claims: claims,
+
+            var token = new JwtSecurityToken(_config["Tokens:Issuer"],
+                _config["Tokens:Audience"],
+                claims,
                 expires: DateTime.Now.AddHours(3),
-                signingCredentials: creds
-            );
+                signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

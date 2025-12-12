@@ -50,6 +50,7 @@ namespace eShopSolution.Data.EF
             modelBuilder.Seed();
 
 
+
             //base.OnModelCreating(modelBuilder);
         }
         public DbSet<Product> Products { get; set; }
