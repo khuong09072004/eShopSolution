@@ -88,7 +88,7 @@ namespace eShopSolution.Data.Extensions
                new Product()
                {
                    Id = 1,
-                   DateCreated = new DateTime(2024, 11, 12),
+                   DateCreated = new DateTime(2024, 1, 1),
                    OriginalPrice = 100000,
                    Price = 200000,
                    Stock = 0,
@@ -134,7 +134,7 @@ namespace eShopSolution.Data.Extensions
                 NormalizedName = "admin",
                 Description = "Administrator role"
             });
-
+            var hasher = new PasswordHasher<AppUser>();
             // Use a static password hash and stamps so HasData is deterministic
             modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
@@ -145,7 +145,7 @@ namespace eShopSolution.Data.Extensions
                 NormalizedEmail = "bakhuong.international@gmail.com",
                 EmailConfirmed = true,
                 // static hash taken from existing migration
-                PasswordHash = "AQAAAAIAAYagAAAAEL2SvyQxXnQvlG061h3tXCWuJ06zOTDhk7O+FSMCMnZ8+AD7s1W6HglJo5f5k4RxCw==",
+                PasswordHash = "AQAAAAIAAYagAAAAEBdt4sV/Fn3LqzSkq2x+vo+gjmnWB8yW3lbPnh1LH16zdlg+0Q87O06/Hf3iNyuCVQ==",
                 SecurityStamp = string.Empty,
                 ConcurrencyStamp = "b0e0e880-357f-4125-a2cf-98d5e41c2a14",
                 FirstName = "Khuong",
