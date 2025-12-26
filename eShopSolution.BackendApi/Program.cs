@@ -37,8 +37,7 @@ builder.Services.AddIdentity<AppUser, AppRole>()
 
 // DI
 builder.Services.AddTransient<IStorageService, FileStorageService>();
-builder.Services.AddTransient<IPublicProductService, PublicProductService>();
-builder.Services.AddTransient<IManageProductService, ManageProductService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();

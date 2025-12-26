@@ -1,4 +1,5 @@
 ﻿using eShopSolution.Application.System.Users;
+using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,10 +29,11 @@ namespace eShopSolution.BackendApi.Controllers
             {
                 return BadRequest("Username or password is incorrect.");
             }
+            
             return Ok(new { token = resultToken });
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -43,6 +45,13 @@ namespace eShopSolution.BackendApi.Controllers
                 return BadRequest("Register is unsuccesful");
             }
             return Ok();
+        }
+        //http://localhost:port/users/paging?pageIndex=1&pageSize=10&Keyword=
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging( [FromQuery]GetUserPagingRequest  request)
+        {
+            var products = await _userService.GetUsersPaging( request);
+            return Ok(products);
         }
     }
 }
